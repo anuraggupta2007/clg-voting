@@ -19,7 +19,7 @@ export const CandidateLayout: React.FC<CandidateLayoutProps> = ({
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
-    <div className="flex h-screen bg-[#F7F8FC] overflow-hidden">
+    <div className="flex h-screen bg-bg-primary overflow-hidden">
       <div className="hidden lg:flex">
         <CandidateSidebar />
       </div>

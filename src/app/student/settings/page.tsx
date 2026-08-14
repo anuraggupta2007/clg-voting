@@ -7,6 +7,7 @@ import { StudentLayout } from "@/components/layout/StudentLayout";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { useTheme } from "@/components/ui/ThemeContext";
 import { MOCK_NOTIFICATION_SETTINGS, MOCK_STUDENT_PROFILE } from "@/lib/student-profile-data";
 import {
   Bell,
@@ -28,9 +29,9 @@ type SettingsTab = "notifications" | "appearance" | "language" | "security" | "a
 
 export default function SettingsPage() {
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
   const [activeTab, setActiveTab] = useState<SettingsTab>("notifications");
   const [notifications, setNotifications] = useState(MOCK_NOTIFICATION_SETTINGS);
-  const [appearance, setAppearance] = useState<"system" | "light" | "dark">("system");
   const [language, setLanguage] = useState("en");
   const [showSignOutModal, setShowSignOutModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -136,15 +137,15 @@ export default function SettingsPage() {
                       ]).map((option) => (
                         <button
                           key={option.id}
-                          onClick={() => setAppearance(option.id)}
+                          onClick={() => setTheme(option.id)}
                           className={`p-4 rounded-xl border-2 text-center transition-colors ${
-                            appearance === option.id
+                            theme === option.id
                               ? "border-primary-600 bg-primary-50"
                               : "border-border hover:border-primary-200"
                           }`}
                         >
-                          <option.icon className={`w-6 h-6 mx-auto mb-2 ${appearance === option.id ? "text-primary-600" : "text-text-secondary"}`} />
-                          <span className={`text-sm font-medium ${appearance === option.id ? "text-primary-700" : "text-text-primary"}`}>
+                          <option.icon className={`w-6 h-6 mx-auto mb-2 ${theme === option.id ? "text-primary-600" : "text-text-secondary"}`} />
+                          <span className={`text-sm font-medium ${theme === option.id ? "text-primary-700" : "text-text-primary"}`}>
                             {option.label}
                           </span>
                         </button>

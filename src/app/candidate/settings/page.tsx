@@ -6,6 +6,7 @@ import { CandidateLayout } from "@/components/candidate-dashboard/CandidateLayou
 import { Card } from "@/components/ui/Card"
 import { Button } from "@/components/ui/Button"
 import { Badge } from "@/components/ui/Badge"
+import { useTheme } from "@/components/ui/ThemeContext"
 import {
   Bell,
   Palette,
@@ -23,6 +24,7 @@ import {
 
 export default function CandidateSettingsPage() {
   const router = useRouter()
+  const { theme, setTheme } = useTheme()
   const [activeTab, setActiveTab] = useState("notifications")
   const [showSignOutModal, setShowSignOutModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
@@ -34,7 +36,6 @@ export default function CandidateSettingsPage() {
       applicationChanges: true,
       systemAnnouncements: false,
     },
-    appearance: "system" as "system" | "light" | "dark",
     language: "en" as "en" | "hi",
   })
 
@@ -163,26 +164,26 @@ export default function CandidateSettingsPage() {
                   {appearanceOptions.map((option) => (
                     <button
                       key={option.value}
-                      onClick={() => setSettings((prev) => ({ ...prev, appearance: option.value }))}
+                      onClick={() => setTheme(option.value)}
                       className={`flex flex-col items-center gap-3 p-6 rounded-xl border-2 transition-all ${
-                        settings.appearance === option.value
+                        theme === option.value
                           ? "border-primary-500 bg-primary-50"
                           : "border-gray-200 hover:border-gray-300 bg-white"
                       }`}
                     >
                       <option.icon
                         className={`w-8 h-8 ${
-                          settings.appearance === option.value ? "text-primary-600" : "text-gray-400"
+                          theme === option.value ? "text-primary-600" : "text-gray-400"
                         }`}
                       />
                       <span
                         className={`text-sm font-medium ${
-                          settings.appearance === option.value ? "text-primary-700" : "text-gray-600"
+                          theme === option.value ? "text-primary-700" : "text-gray-600"
                         }`}
                       >
                         {option.label}
                       </span>
-                      {settings.appearance === option.value && (
+                      {theme === option.value && (
                         <CheckCircle2 className="w-5 h-5 text-primary-600" />
                       )}
                     </button>

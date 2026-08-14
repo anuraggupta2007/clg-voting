@@ -93,9 +93,9 @@ function VotePageInner() {
   if (election.hasVoted) return <AlreadyVotedState />;
 
   return (
-    <div className="flex h-screen bg-[#F7F8FC] overflow-hidden">
-      <StudentLayout>
-        <div className="max-w-3xl mx-auto space-y-6">
+    <>
+    <StudentLayout>
+        <div className="max-w-7xl mx-auto w-full space-y-6">
           {/* Header */}
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-3">
@@ -197,7 +197,7 @@ function VotePageInner() {
         onStay={() => setShowLeaveModal(false)}
         onLeave={handleLeave}
       />
-    </div>
+    </>
   );
 }
 

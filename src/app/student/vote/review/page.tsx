@@ -41,9 +41,9 @@ function ReviewPageInner() {
   };
 
   return (
-    <div className="flex h-screen bg-[#F7F8FC] overflow-hidden">
+    <>
       <StudentLayout>
-        <div className="max-w-3xl mx-auto space-y-6">
+        <div className="max-w-7xl mx-auto w-full space-y-6">
           {/* Header */}
           <div>
             <h1 className="text-2xl font-bold text-text-primary mb-1">Review Your Ballot</h1>
@@ -113,7 +113,7 @@ function ReviewPageInner() {
         onConfirm={handleConfirmSubmit}
         onBack={() => setShowModal(false)}
       />
-    </div>
+    </>
   );
 }
 

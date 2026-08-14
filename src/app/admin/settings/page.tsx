@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Modal } from "@/components/ui/Modal";
+import { useTheme } from "@/components/ui/ThemeContext";
 import {
   Bell,
   Palette,
@@ -92,11 +93,11 @@ const possibleRoles = [
 
 export default function AdminSettingsPage() {
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
   const [activeTab, setActiveTab] = useState<Tab>("election");
   const [notifications, setNotifications] = useState(
     notificationOptions.map((n) => ({ ...n }))
   );
-  const [selectedAppearance, setSelectedAppearance] = useState("system");
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
   const [showSignOutModal, setShowSignOutModal] = useState(false);
 
@@ -372,28 +373,28 @@ export default function AdminSettingsPage() {
                   {appearanceOptions.map((option) => (
                     <button
                       key={option.id}
-                      onClick={() => setSelectedAppearance(option.id)}
+                      onClick={() => setTheme(option.id as "system" | "light" | "dark")}
                       className={`relative p-6 rounded-xl border-2 text-center transition-all cursor-pointer ${
-                        selectedAppearance === option.id
+                        theme === option.id
                           ? "border-primary-600 bg-primary-50"
                           : "border-border hover:border-border-strong bg-white"
                       }`}
                     >
-                      {selectedAppearance === option.id && (
+                      {theme === option.id && (
                         <div className="absolute top-3 right-3">
                           <CheckCircle2 className="h-5 w-5 text-primary-600" />
                         </div>
                       )}
                       <option.icon
                         className={`h-8 w-8 mx-auto mb-3 ${
-                          selectedAppearance === option.id
+                          theme === option.id
                             ? "text-primary-600"
                             : "text-text-muted"
                         }`}
                       />
                       <p
                         className={`text-sm font-medium ${
-                          selectedAppearance === option.id
+                          theme === option.id
                             ? "text-primary-700"
                             : "text-text-primary"
                         }`}
