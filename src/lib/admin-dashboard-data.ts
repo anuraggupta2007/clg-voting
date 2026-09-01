@@ -22,13 +22,20 @@ export interface AdminCandidate {
   position: string;
   department: string;
   year: string;
+  section: string;
+  enrollmentNumber: string;
+  email: string;
+  phone: string;
+  photo: string | null;
+  biography: string;
+  manifesto: string;
+  campaignTitle: string;
+  campaignDescription: string;
   applicationStatus: CandidateAdminStatus;
   profileStatus: string;
   submittedDate: string;
-  biography: string;
-  campaignTitle: string;
-  campaignDescription: string;
-  manifestoCount: number;
+  rejectionReason: string | null;
+  adminNote: string | null;
 }
 
 export interface AdminStudent {
@@ -107,18 +114,7 @@ export const MOCK_ADMIN_ELECTION = {
   votingMethod: "Online Single Transferable Vote",
 };
 
-export const MOCK_ADMIN_CANDIDATES: AdminCandidate[] = [
-  { id: "CAN-001", name: "Aarav Sharma", position: "President", department: "BCA", year: "3rd Year", applicationStatus: "approved", profileStatus: "Published", submittedDate: "27 July 2026", biography: "Interested in improving communication between students and college administration.", campaignTitle: "Students First", campaignDescription: "Focused on improving student communication and campus activities.", manifestoCount: 4 },
-  { id: "CAN-002", name: "Priya Patel", position: "President", department: "BBA", year: "3rd Year", applicationStatus: "approved", profileStatus: "Published", submittedDate: "26 July 2026", biography: "Passionate about student welfare and campus development initiatives.", campaignTitle: "Empower Together", campaignDescription: "Building a stronger campus community through collaboration.", manifestoCount: 4 },
-  { id: "CAN-003", name: "Rohit Verma", position: "Vice President", department: "BCA", year: "2nd Year", applicationStatus: "approved", profileStatus: "Published", submittedDate: "27 July 2026", biography: "Dedicated to enhancing student experience through technology and innovation.", campaignTitle: "Tech for All", campaignDescription: "Leveraging technology to improve campus life.", manifestoCount: 3 },
-  { id: "CAN-004", name: "Sneha Gupta", position: "Vice President", department: "BBA", year: "3rd Year", applicationStatus: "submitted", profileStatus: "Pending", submittedDate: "28 July 2026", biography: "Committed to fostering an inclusive and supportive campus environment.", campaignTitle: "Inclusive Campus", campaignDescription: "Creating a campus where every student feels valued.", manifestoCount: 2 },
-  { id: "CAN-005", name: "Vikram Singh", position: "General Secretary", department: "BCA", year: "2nd Year", applicationStatus: "under_review", profileStatus: "Under Review", submittedDate: "29 July 2026", biography: "Focused on improving administrative efficiency and student services.", campaignTitle: "Streamline", campaignDescription: "Making student services faster and more efficient.", manifestoCount: 3 },
-  { id: "CAN-006", name: "Ananya Desai", position: "General Secretary", department: "BSc IT", year: "3rd Year", applicationStatus: "changes_requested", profileStatus: "Draft", submittedDate: "28 July 2026", biography: "Working towards better academic support systems for all students.", campaignTitle: "Academic First", campaignDescription: "Prioritizing academic excellence and support.", manifestoCount: 2 },
-  { id: "CAN-007", name: "Arjun Mehta", position: "Treasurer", department: "BCA", year: "3rd Year", applicationStatus: "approved", profileStatus: "Published", submittedDate: "26 July 2026", biography: "Experienced in financial planning and budget management.", campaignTitle: "Transparent Finance", campaignDescription: "Clear and accountable financial management for student funds.", manifestoCount: 3 },
-  { id: "CAN-008", name: "Kavya Nair", position: "Cultural Secretary", department: "BBA", year: "2nd Year", applicationStatus: "approved", profileStatus: "Published", submittedDate: "27 July 2026", biography: "Passionate about cultural events and artistic expression on campus.", campaignTitle: "Culture Connect", campaignDescription: "Bringing diverse cultural experiences to campus.", manifestoCount: 4 },
-  { id: "CAN-009", name: "Aditya Joshi", position: "Sports Secretary", department: "BCA", year: "2nd Year", applicationStatus: "rejected", profileStatus: "Not Published", submittedDate: "30 July 2026", biography: "Active sports enthusiast with leadership experience.", campaignTitle: "Active Campus", campaignDescription: "Promoting sports and fitness on campus.", manifestoCount: 1 },
-  { id: "CAN-010", name: "Neha Reddy", position: "President", department: "BSc IT", year: "3rd Year", applicationStatus: "draft", profileStatus: "Draft", submittedDate: "—", biography: "", campaignTitle: "", campaignDescription: "", manifestoCount: 0 },
-];
+export const MOCK_ADMIN_CANDIDATES: AdminCandidate[] = [];
 
 export const MOCK_ADMIN_STUDENTS: AdminStudent[] = [
   { id: "STU-2025-001", name: "Anurag Gupta", department: "BCA", year: "2nd Year", eligibility: "Eligible", votingStatus: "Voted", accountStatus: "Active" },

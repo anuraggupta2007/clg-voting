@@ -4,6 +4,8 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/components/ui/toast-provider";
+import type { ApplicationStatus } from "@/lib/candidate-dashboard-data";
 import {
   LayoutDashboard,
   User,
@@ -14,11 +16,31 @@ import {
   HelpCircle,
   Settings,
   LogOut,
+  Send,
+  Lock,
 } from "lucide-react";
 
 export interface CandidateSidebarProps {
   className?: string;
   onNavigate?: () => void;
+  status?: ApplicationStatus;
+}
+
+function isItemLocked(item: string, status: ApplicationStatus): boolean {
+  if (status === "approved") return false;
+
+  switch (status) {
+    case "draft":
+      return !["Application Status", "Apply as Candidate"].includes(item);
+    case "submitted":
+    case "under_review":
+    case "rejected":
+      return item !== "Application Status";
+    case "changes_requested":
+      return !["Application Status", "Apply as Candidate"].includes(item);
+    default:
+      return true;
+  }
 }
 
 const MENU_ITEMS = [
@@ -27,6 +49,7 @@ const MENU_ITEMS = [
   { label: "Campaign", href: "/candidate/campaign", icon: Megaphone },
   { label: "Manifesto", href: "/candidate/manifesto", icon: FileText },
   { label: "Application Status", href: "/candidate/status", icon: BarChart3 },
+  { label: "Apply as Candidate", href: "/candidate/apply", icon: Send },
   { label: "Preview Profile", href: "/candidate/preview", icon: Eye },
   { label: "Help & Support", href: "/student/help", icon: HelpCircle },
   { label: "Settings", href: "/candidate/settings", icon: Settings },
@@ -35,8 +58,15 @@ const MENU_ITEMS = [
 export const CandidateSidebar: React.FC<CandidateSidebarProps> = ({
   className,
   onNavigate,
+  status = "approved",
 }) => {
   const pathname = usePathname();
+  const { toast } = useToast();
+
+  const handleLockedClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    toast("🔒 This section is locked until your candidate application is approved by administration.", "warning");
+  };
 
   return (
     <aside
@@ -63,6 +93,27 @@ export const CandidateSidebar: React.FC<CandidateSidebarProps> = ({
         {MENU_ITEMS.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
+          const locked = isItemLocked(item.label, status);
+
+          if (locked) {
+            return (
+              <button
+                key={item.href}
+                onClick={(e) => {
+                  handleLockedClick(e);
+                  onNavigate?.();
+                }}
+                className={cn(
+                  "flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 w-full text-left cursor-pointer",
+                  "text-text-muted opacity-60"
+                )}
+              >
+                <Lock className="w-5 h-5 text-text-muted shrink-0" />
+                <span className="flex-1">{item.label}</span>
+              </button>
+            );
+          }
+
           return (
             <Link
               key={item.href}

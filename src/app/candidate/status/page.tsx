@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { CandidateLayout } from "@/components/candidate-dashboard/CandidateLayout";
 import { Card } from "@/components/ui/Card";
@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import {
   MOCK_CANDIDATE_PROFILE,
-  MOCK_STATUS_TIMELINE,
   ELECTION_INFO,
 } from "@/lib/candidate-dashboard-data";
 import {
@@ -20,20 +19,46 @@ import {
   Shield,
   AlertTriangle,
   X,
+  Send,
 } from "lucide-react";
 
 export default function CandidateStatusPage() {
   const [showSubmitModal, setShowSubmitModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const profile = MOCK_CANDIDATE_PROFILE;
+  const [profile, setProfile] = useState(MOCK_CANDIDATE_PROFILE);
   const status = profile.applicationStatus;
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("campusvote_application_status");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed.status) {
+          setProfile((prev) => ({
+            ...prev,
+            applicationStatus: parsed.status,
+            adminNote: parsed.adminNote || null,
+          }));
+        }
+      }
+    } catch {}
+  }, []);
 
   const handleSubmit = () => {
     setIsSubmitting(true);
     setTimeout(() => {
+      const newStatus = "under_review";
+      localStorage.setItem(
+        "campusvote_application_status",
+        JSON.stringify({ status: newStatus })
+      );
+      setProfile((prev) => ({
+        ...prev,
+        applicationStatus: newStatus,
+      }));
       setIsSubmitting(false);
       setShowSubmitModal(false);
-    }, 2000);
+    }, 1500);
   };
 
   const renderStatusCard = () => {
@@ -53,7 +78,7 @@ export default function CandidateStatusPage() {
                   Your profile has been approved and published.
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                  <div className="p-3 rounded-xl bg-white">
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#1C1F33]">
                     <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">
                       Position
                     </p>
@@ -61,7 +86,7 @@ export default function CandidateStatusPage() {
                       {profile.position}
                     </p>
                   </div>
-                  <div className="p-3 rounded-xl bg-white">
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#1C1F33]">
                     <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">
                       Candidate ID
                     </p>
@@ -69,7 +94,7 @@ export default function CandidateStatusPage() {
                       {profile.id}
                     </p>
                   </div>
-                  <div className="p-3 rounded-xl bg-white">
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#1C1F33]">
                     <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">
                       Application
                     </p>
@@ -77,7 +102,7 @@ export default function CandidateStatusPage() {
                       Approved
                     </Badge>
                   </div>
-                  <div className="p-3 rounded-xl bg-white">
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#1C1F33]">
                     <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">
                       Profile
                     </p>
@@ -86,10 +111,10 @@ export default function CandidateStatusPage() {
                     </Badge>
                   </div>
                 </div>
-                <Link href="/candidate/preview">
+                <Link href="/candidate/dashboard">
                   <Button variant="primary" size="sm" className="gap-1.5">
-                    <FileText className="w-3.5 h-3.5" />
-                    Preview Public Profile
+                    <ArrowRight className="w-3.5 h-3.5" />
+                    Go to Dashboard
                   </Button>
                 </Link>
               </div>
@@ -100,24 +125,26 @@ export default function CandidateStatusPage() {
       case "submitted":
       case "under_review":
         return (
-          <Card className="p-6 border-info/20 bg-info-50">
+          <Card className="p-6 border-warning/20 bg-warning-50">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-info flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-warning flex items-center justify-center shrink-0">
                 <Clock className="w-6 h-6 text-white" />
               </div>
               <div className="flex-1">
                 <h2 className="text-lg font-bold text-text-primary mb-1">
-                  Profile Under Review
+                  Under Review
                 </h2>
                 <p className="text-sm text-text-secondary mb-4">
-                  Election administration is reviewing your candidate profile.
+                  Your application has been submitted and is awaiting administration approval.
                 </p>
-                <Link href="/candidate/preview">
-                  <Button variant="secondary" size="sm" className="gap-1.5">
-                    <FileText className="w-3.5 h-3.5" />
-                    View Profile Preview
-                  </Button>
-                </Link>
+                <div className="flex gap-3">
+                  <Link href="/candidate/preview">
+                    <Button variant="secondary" size="sm" className="gap-1.5">
+                      <FileText className="w-3.5 h-3.5" />
+                      View Profile Preview
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
           </Card>
@@ -138,7 +165,7 @@ export default function CandidateStatusPage() {
                   Election administration has requested changes to your profile.
                 </p>
                 {profile.adminNote && (
-                  <div className="p-3 rounded-xl bg-white mb-4">
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#1C1F33] mb-4">
                     <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">
                       Requested Changes
                     </p>
@@ -148,14 +175,11 @@ export default function CandidateStatusPage() {
                   </div>
                 )}
                 <div className="flex gap-3">
-                  <Link href="/candidate/profile">
+                  <Link href="/candidate/apply">
                     <Button variant="primary" size="sm" className="gap-1.5">
-                      Update Profile
+                      Update & Resubmit
                     </Button>
                   </Link>
-                  <Button variant="secondary" size="sm" className="gap-1.5">
-                    Resubmit for Review
-                  </Button>
                 </div>
               </div>
             </div>
@@ -171,29 +195,24 @@ export default function CandidateStatusPage() {
               </div>
               <div className="flex-1">
                 <h2 className="text-lg font-bold text-text-primary mb-1">
-                  Application Not Approved
+                  Application Rejected
                 </h2>
                 <p className="text-sm text-text-secondary mb-3">
                   Your candidate application was not approved.
                 </p>
-                <div className="p-3 rounded-xl bg-white mb-4">
+                <div className="p-3 rounded-xl bg-white dark:bg-[#1C1F33] mb-4">
                   <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">
                     Reason
                   </p>
                   <p className="text-sm text-text-primary">
-                    Required information could not be verified.
+                    {profile.adminNote || "Required information could not be verified."}
                   </p>
                 </div>
-                <div className="flex gap-3">
-                  <Button variant="secondary" size="sm" className="gap-1.5">
-                    View Details
+                <Link href="/candidate/apply">
+                  <Button variant="primary" size="sm" className="gap-1.5">
+                    Apply Again
                   </Button>
-                  <Link href="/candidate/profile">
-                    <Button variant="primary" size="sm" className="gap-1.5">
-                      Update &amp; Resubmit
-                    </Button>
-                  </Link>
-                </div>
+                </Link>
               </div>
             </div>
           </Card>
@@ -212,11 +231,12 @@ export default function CandidateStatusPage() {
                   Application Not Started
                 </h2>
                 <p className="text-sm text-text-secondary mb-4">
-                  Complete your profile and submit for approval.
+                  Complete the candidate application form to submit your candidacy for the election.
                 </p>
-                <Link href="/candidate/profile">
+                <Link href="/candidate/apply">
                   <Button variant="primary" size="sm" className="gap-1.5">
-                    Complete Profile
+                    <Send className="w-3.5 h-3.5" />
+                    Start Application
                   </Button>
                 </Link>
               </div>
@@ -229,7 +249,6 @@ export default function CandidateStatusPage() {
   return (
     <CandidateLayout>
       <div className="max-w-4xl mx-auto space-y-6">
-        {/* Header */}
         <div>
           <h1 className="text-2xl font-bold text-text-primary">
             Application Status
@@ -239,7 +258,6 @@ export default function CandidateStatusPage() {
           </p>
         </div>
 
-        {/* Status Card */}
         {renderStatusCard()}
 
         {/* Timeline */}
@@ -250,7 +268,12 @@ export default function CandidateStatusPage() {
           <div className="relative">
             <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-border" />
             <div className="space-y-5">
-              {MOCK_STATUS_TIMELINE.map((event, i) => (
+              {[
+                { label: "Application Started", completed: status !== "draft", current: status === "draft" },
+                { label: "Profile Submitted", completed: ["under_review", "changes_requested", "approved", "rejected"].includes(status), current: false },
+                { label: "Under Review", completed: ["approved", "rejected"].includes(status), current: status === "under_review" || status === "submitted" },
+                { label: status === "rejected" ? "Rejected" : "Approved", completed: status === "approved" || status === "rejected", current: status === "approved" },
+              ].map((event, i) => (
                 <div key={i} className="flex items-start gap-4 relative">
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 z-10 ${
@@ -262,11 +285,7 @@ export default function CandidateStatusPage() {
                     }`}
                   >
                     {event.completed ? (
-                      <CheckCircle2
-                        className={`w-4 h-4 ${
-                          event.current ? "text-white" : "text-white"
-                        }`}
-                      />
+                      <CheckCircle2 className="w-4 h-4 text-white" />
                     ) : (
                       <Clock className="w-4 h-4 text-text-secondary" />
                     )}
@@ -290,38 +309,12 @@ export default function CandidateStatusPage() {
                         </Badge>
                       )}
                     </div>
-                    {event.date && (
-                      <p className="text-xs text-text-secondary mt-0.5">
-                        {event.date}
-                      </p>
-                    )}
                   </div>
                 </div>
               ))}
             </div>
           </div>
         </Card>
-
-        {/* Submit for Approval */}
-        {(status === "draft" || status === "changes_requested") && (
-          <Card className="p-6 border-border">
-            <h2 className="text-lg font-bold text-text-primary mb-2">
-              Submit for Approval
-            </h2>
-            <p className="text-sm text-text-secondary mb-4">
-              Ready to submit your profile for election administration review?
-            </p>
-            <Button
-              variant="primary"
-              size="lg"
-              className="gap-2"
-              onClick={() => setShowSubmitModal(true)}
-            >
-              <ArrowRight className="w-4 h-4" />
-              Submit for Approval
-            </Button>
-          </Card>
-        )}
 
         {/* Election Information */}
         <Card className="p-6 border-border">
@@ -412,10 +405,10 @@ export default function CandidateStatusPage() {
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setShowSubmitModal(false)}
           />
-          <div className="relative bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
+          <div className="relative bg-white dark:bg-[#1C1F33] rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-bold text-text-primary">
-                Submit Profile for Approval?
+                Submit Application for Approval?
               </h3>
               <button
                 onClick={() => setShowSubmitModal(false)}
@@ -425,8 +418,8 @@ export default function CandidateStatusPage() {
               </button>
             </div>
             <p className="text-sm text-text-secondary">
-              After submission, some profile information may become locked while
-              election administration reviews your application.
+              After submission, verified information will be locked while election
+              administration reviews your application.
             </p>
             <div className="flex gap-3 pt-2">
               <Button

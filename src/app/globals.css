@@ -171,9 +171,6 @@ body {
   --color-warning-100: #3d3218;
   --color-error-50: #2a1515;
   --color-error-100: #3d1f1f;
-
-  --color-white: #1C1F33;
-  --color-black: #E4E6F2;
 }
 
 .dark body {

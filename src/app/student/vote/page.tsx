@@ -91,6 +91,21 @@ function VotePageInner() {
   if (election.status === "closed") return <VotingClosedState />;
   if (!election.eligible) return <NotEligibleState />;
   if (election.hasVoted) return <AlreadyVotedState />;
+  if (election.positions.length === 0) {
+    return (
+      <StudentLayout>
+        <div className="max-w-7xl mx-auto w-full space-y-6">
+          <div>
+            <h1 className="text-2xl font-bold text-text-primary mb-1">Cast Your Vote</h1>
+            <p className="text-sm text-text-secondary">No positions available for voting yet.</p>
+          </div>
+          <Card className="p-12 text-center">
+            <p className="text-text-secondary">Voting positions will appear here once candidates are approved.</p>
+          </Card>
+        </div>
+      </StudentLayout>
+    );
+  }
 
   return (
     <>

@@ -25,8 +25,8 @@ export default function NotificationBell() {
         )}
       </button>
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-80 bg-white rounded-[14px] shadow-lg border border py-2 z-50 max-h-[400px] overflow-y-auto">
-          <div className="px-4 py-2 border-b border flex items-center justify-between">
+        <div className="fixed sm:absolute right-3 sm:right-0 top-[4.25rem] sm:top-full sm:mt-2 w-[calc(100vw-1.5rem)] sm:w-80 max-w-[calc(100vw-1.5rem)] bg-white dark:bg-[#1C1F33] rounded-[14px] shadow-lg border border-border py-2 z-50 max-h-[70vh] overflow-y-auto">
+          <div className="px-4 py-2 border-b border-border flex items-center justify-between">
             <span className="font-semibold text-sm text-text-primary">Notifications</span>
             {unread > 0 && <span className="text-xs text-text-secondary">{unread} new</span>}
           </div>
@@ -44,7 +44,7 @@ export default function NotificationBell() {
             </Link>
           ))}
           <Link href="/notifications" onClick={() => setOpen(false)}
-            className="block text-center text-xs font-medium text-primary-600 hover:text-primary-500 py-2 border-t border">
+            className="block text-center text-xs font-medium text-primary-600 hover:text-primary-500 py-2 border-t border-border">
             View All Notifications
           </Link>
         </div>

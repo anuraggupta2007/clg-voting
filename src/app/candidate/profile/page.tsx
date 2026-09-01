@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { MOCK_CANDIDATE_PROFILE } from "@/lib/candidate-dashboard-data";
 import type { ApplicationStatus } from "@/lib/candidate-dashboard-data";
+import { Lock, Camera } from "lucide-react";
 
 const STATUS_MAP: Record<ApplicationStatus, { label: string; variant: "default" | "success" | "warning" | "error" | "info" | "neutral"; description: string }> = {
   draft: { label: "Draft", variant: "neutral", description: "Your profile is in draft. Submit it for review." },
@@ -20,15 +21,11 @@ const STATUS_MAP: Record<ApplicationStatus, { label: string; variant: "default" 
 export default function CandidateProfilePage() {
   const profile = MOCK_CANDIDATE_PROFILE;
   const statusInfo = STATUS_MAP[profile.applicationStatus];
+  const isApproved = profile.applicationStatus === "approved";
 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: profile.name,
     biography: profile.biography,
-    department: profile.department,
-    year: profile.year,
-    email: profile.socialLinks.email,
-    phone: profile.socialLinks.phone,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -47,7 +44,6 @@ export default function CandidateProfilePage() {
 
   const validate = (): boolean => {
     const newErrors: Record<string, string> = {};
-    if (!formData.name.trim()) newErrors.name = "Display name is required";
     if (!formData.biography.trim()) newErrors.biography = "Biography is required";
     if (formData.biography.length > 500) newErrors.biography = "Biography must be 500 characters or fewer";
     setErrors(newErrors);
@@ -60,14 +56,7 @@ export default function CandidateProfilePage() {
   };
 
   const handleCancel = () => {
-    setFormData({
-      name: profile.name,
-      biography: profile.biography,
-      department: profile.department,
-      year: profile.year,
-      email: profile.socialLinks.email,
-      phone: profile.socialLinks.phone,
-    });
+    setFormData({ biography: profile.biography });
     setErrors({});
     setIsEditing(false);
   };
@@ -78,7 +67,6 @@ export default function CandidateProfilePage() {
       candidateId={profile.id}
     >
       <div className="max-w-3xl mx-auto space-y-6">
-        {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-text-primary">My Candidate Profile</h1>
@@ -86,78 +74,129 @@ export default function CandidateProfilePage() {
               Manage your public candidate profile and campaign information.
             </p>
           </div>
-          <Button
-            variant={isEditing ? "outline" : "primary"}
-            onClick={() => (isEditing ? handleCancel() : setIsEditing(true))}
-          >
-            {isEditing ? "Cancel Editing" : "Edit Profile"}
-          </Button>
+          {isApproved && (
+            <Button
+              variant={isEditing ? "outline" : "primary"}
+              onClick={() => (isEditing ? handleCancel() : setIsEditing(true))}
+            >
+              {isEditing ? "Cancel Editing" : "Edit Profile"}
+            </Button>
+          )}
         </div>
 
-        {/* Profile Display / Edit Form */}
         <Card className="p-6 sm:p-8">
-          {isEditing ? (
-            /* Edit Form */
-            <div className="space-y-6">
-              <h2 className="text-lg font-semibold text-text-primary">Edit Profile</h2>
-
-              {/* Read-only fields info */}
-              <div className="bg-primary-50 border border-primary-200 rounded-xl p-4 text-sm text-primary-700">
-                <p className="font-medium">Read-only fields</p>
-                <p className="mt-1 text-xs text-primary-600">
-                  Candidate ID, Position, and Application Status cannot be edited.
-                </p>
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-start gap-5">
+              <div className="relative group">
+                <div className="w-20 h-20 rounded-full bg-primary-600 flex items-center justify-center flex-shrink-0">
+                  <span className="text-2xl font-bold text-white">{initials}</span>
+                </div>
+                {isApproved && (
+                  <label className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                    <Camera className="w-5 h-5 text-white" />
+                    <input type="file" accept="image/*" className="hidden" />
+                  </label>
+                )}
               </div>
 
-              {/* Editable fields */}
+              <div className="space-y-2 flex-1">
+                <h2 className="text-xl font-bold text-text-primary">{profile.name}</h2>
+                <p className="font-mono text-sm text-text-secondary">{profile.id}</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="text-sm text-text-secondary">{profile.position}</span>
+                  <span className="text-text-muted">·</span>
+                  <span className="text-sm text-text-secondary">{profile.department}</span>
+                  <span className="text-text-muted">·</span>
+                  <span className="text-sm text-text-secondary">{profile.year}</span>
+                </div>
+              </div>
+            </div>
+
+            {isEditing ? (
               <div className="space-y-4">
-                <div>
-                  <label className="block text-xs font-medium text-text-secondary mb-1.5">
-                    Candidate ID
-                  </label>
-                  <input
-                    type="text"
-                    value={profile.id}
-                    disabled
-                    className="w-full px-3 py-2.5 rounded-xl border border-border text-sm text-text-secondary bg-primary-50 font-mono cursor-not-allowed"
-                  />
+                <div className="bg-primary-50 border border-primary-200 rounded-xl p-4 text-sm text-primary-700">
+                  <p className="font-medium">Read-only fields</p>
+                  <p className="mt-1 text-xs text-primary-600">
+                    Name, Enrollment Number, Department, Year, Section, and Position cannot be edited after approval.
+                  </p>
                 </div>
 
-                <div>
-                  <label className="block text-xs font-medium text-text-secondary mb-1.5">
-                    Position
-                  </label>
-                  <input
-                    type="text"
-                    value={profile.position}
-                    disabled
-                    className="w-full px-3 py-2.5 rounded-xl border border-border text-sm text-text-secondary bg-primary-50 cursor-not-allowed"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-medium text-text-secondary mb-1.5">
-                    Application Status
-                  </label>
-                  <div className="w-full px-3 py-2.5 rounded-xl border border-border text-sm text-text-secondary bg-primary-50">
-                    <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-medium text-text-secondary mb-1.5">
+                      Full Name 🔒
+                    </label>
+                    <input
+                      type="text"
+                      value={profile.name}
+                      disabled
+                      className="w-full px-3 py-2.5 rounded-xl border border-border text-sm text-text-secondary bg-primary-50 cursor-not-allowed"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-text-secondary mb-1.5">
+                      Enrollment Number 🔒
+                    </label>
+                    <input
+                      type="text"
+                      value={profile.enrollmentNumber}
+                      disabled
+                      className="w-full px-3 py-2.5 rounded-xl border border-border text-sm text-text-secondary bg-primary-50 font-mono cursor-not-allowed"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-text-secondary mb-1.5">
+                      Position 🔒
+                    </label>
+                    <input
+                      type="text"
+                      value={profile.position}
+                      disabled
+                      className="w-full px-3 py-2.5 rounded-xl border border-border text-sm text-text-secondary bg-primary-50 cursor-not-allowed"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-text-secondary mb-1.5">
+                      Department 🔒
+                    </label>
+                    <input
+                      type="text"
+                      value={profile.department}
+                      disabled
+                      className="w-full px-3 py-2.5 rounded-xl border border-border text-sm text-text-secondary bg-primary-50 cursor-not-allowed"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-text-secondary mb-1.5">
+                      Year 🔒
+                    </label>
+                    <input
+                      type="text"
+                      value={profile.year}
+                      disabled
+                      className="w-full px-3 py-2.5 rounded-xl border border-border text-sm text-text-secondary bg-primary-50 cursor-not-allowed"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-text-secondary mb-1.5">
+                      Section 🔒
+                    </label>
+                    <input
+                      type="text"
+                      value={profile.section}
+                      disabled
+                      className="w-full px-3 py-2.5 rounded-xl border border-border text-sm text-text-secondary bg-primary-50 cursor-not-allowed"
+                    />
                   </div>
                 </div>
 
-                <div>
+                <div className="pt-2">
                   <label className="block text-xs font-medium text-text-secondary mb-1.5">
-                    Display Name <span className="text-error-500">*</span>
+                    Application Status
                   </label>
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => handleChange("name", e.target.value)}
-                    required
-                    className="w-full px-3 py-2.5 rounded-xl border border-border text-sm text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  />
-                  {errors.name && (
-                    <p className="text-xs text-error-600 font-medium mt-1">{errors.name}</p>
-                  )}
+                  <div className="w-full px-3 py-2.5 rounded-xl border border-border text-sm bg-primary-50">
+                    <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>
+                  </div>
                 </div>
 
                 <div>
@@ -182,123 +221,78 @@ export default function CandidateProfilePage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-medium text-text-secondary mb-1.5">
-                      Department
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.department}
-                      onChange={(e) => handleChange("department", e.target.value)}
-                      className="w-full px-3 py-2.5 rounded-xl border border-border text-sm text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary-500"
-                    />
-                  </div>
+                <div className="flex items-center gap-3 pt-4 border-t border-border">
+                  <Button onClick={handleSave}>Save Profile</Button>
+                  <Button variant="outline" onClick={handleCancel}>Cancel</Button>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-sm font-medium text-text-secondary mb-1">Biography</h3>
+                  <p className="text-sm text-text-primary leading-relaxed">{profile.biography}</p>
+                </div>
 
-                  <div>
-                    <label className="block text-xs font-medium text-text-secondary mb-1.5">
-                      Year
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.year}
-                      onChange={(e) => handleChange("year", e.target.value)}
-                      className="w-full px-3 py-2.5 rounded-xl border border-border text-sm text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary-500"
-                    />
+                <div className="space-y-3">
+                  <h3 className="text-sm font-medium text-text-secondary">Verified Information</h3>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="p-3 rounded-xl bg-bg-tertiary">
+                      <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">Full Name 🔒</p>
+                      <p className="text-sm font-semibold text-text-primary">{profile.name}</p>
+                    </div>
+                    <div className="p-3 rounded-xl bg-bg-tertiary">
+                      <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">Enrollment Number 🔒</p>
+                      <p className="text-sm font-mono font-semibold text-text-primary">{profile.enrollmentNumber}</p>
+                    </div>
+                    <div className="p-3 rounded-xl bg-bg-tertiary">
+                      <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">Department 🔒</p>
+                      <p className="text-sm font-semibold text-text-primary">{profile.department}</p>
+                    </div>
+                    <div className="p-3 rounded-xl bg-bg-tertiary">
+                      <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">Year 🔒</p>
+                      <p className="text-sm font-semibold text-text-primary">{profile.year}</p>
+                    </div>
+                    <div className="p-3 rounded-xl bg-bg-tertiary">
+                      <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">Section 🔒</p>
+                      <p className="text-sm font-semibold text-text-primary">{profile.section}</p>
+                    </div>
+                    <div className="p-3 rounded-xl bg-bg-tertiary">
+                      <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">Position 🔒</p>
+                      <p className="text-sm font-semibold text-text-primary">{profile.position}</p>
+                    </div>
                   </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-text-secondary">Application Status:</span>
+                  <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-text-secondary mb-1.5">
-                    Campaign Contact Email
-                  </label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleChange("email", e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-xl border border-border text-sm text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  />
+                  <h3 className="text-sm font-medium text-text-secondary mb-2">Campaign Logo</h3>
+                  {profile.campaignLogo ? (
+                    <img
+                      src={profile.campaignLogo}
+                      alt="Campaign Logo"
+                      className="h-16 rounded-xl object-contain border border-border"
+                    />
+                  ) : (
+                    <div className="h-16 w-32 bg-neutral-100 border border-dashed border-border rounded-xl flex items-center justify-center">
+                      <span className="text-xs text-text-muted">No logo uploaded</span>
+                    </div>
+                  )}
                 </div>
 
-                <div>
-                  <label className="block text-xs font-medium text-text-secondary mb-1.5">
-                    Campaign Contact Phone
-                  </label>
-                  <input
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => handleChange("phone", e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-xl border border-border text-sm text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  />
-                </div>
-              </div>
-
-              {/* Form Actions */}
-              <div className="flex items-center gap-3 pt-4 border-t border-border">
-                <Button onClick={handleSave}>Save Profile</Button>
-                <Button variant="outline" onClick={handleCancel}>Cancel</Button>
-              </div>
-            </div>
-          ) : (
-            /* Profile Display */
-            <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-start gap-5">
-                {/* Avatar */}
-                <div className="w-20 h-20 rounded-full bg-primary-600 flex items-center justify-center flex-shrink-0">
-                  <span className="text-2xl font-bold text-white">{initials}</span>
-                </div>
-
-                {/* Info */}
-                <div className="space-y-2">
-                  <h2 className="text-xl font-bold text-text-primary">{profile.name}</h2>
-                  <p className="font-mono text-sm text-text-secondary">{profile.id}</p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="text-sm text-text-secondary">{profile.position}</span>
-                    <span className="text-text-muted">·</span>
-                    <span className="text-sm text-text-secondary">{profile.department}</span>
-                    <span className="text-text-muted">·</span>
-                    <span className="text-sm text-text-secondary">{profile.year}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Biography */}
-              <div>
-                <h3 className="text-sm font-medium text-text-secondary mb-1">Biography</h3>
-                <p className="text-sm text-text-primary leading-relaxed">{profile.biography}</p>
-              </div>
-
-              {/* Application Status */}
-              <div className="flex items-center gap-3">
-                <span className="text-sm text-text-secondary">Application Status:</span>
-                <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>
-              </div>
-
-              {/* Campaign Logo */}
-              <div>
-                <h3 className="text-sm font-medium text-text-secondary mb-2">Campaign Logo</h3>
-                {profile.campaignLogo ? (
-                  <img
-                    src={profile.campaignLogo}
-                    alt="Campaign Logo"
-                    className="h-16 rounded-xl object-contain border border-border"
-                  />
-                ) : (
-                  <div className="h-16 w-32 bg-neutral-100 border border-dashed border-border rounded-xl flex items-center justify-center">
-                    <span className="text-xs text-text-muted">No logo uploaded</span>
+                {isApproved && (
+                  <div className="pt-4 border-t border-border">
+                    <Button onClick={() => setIsEditing(true)}>Edit Bio &amp; Photo</Button>
                   </div>
                 )}
               </div>
-
-              {/* Edit Button */}
-              <div className="pt-4 border-t border-border">
-                <Button onClick={() => setIsEditing(true)}>Edit Profile</Button>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </Card>
 
-        {/* Profile Status Section */}
         <Card className="p-6">
           <h2 className="text-lg font-semibold text-text-primary mb-3">Profile Status</h2>
           <div className="flex items-center gap-3">

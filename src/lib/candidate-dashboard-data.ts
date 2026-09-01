@@ -31,9 +31,11 @@ export interface StatusTimelineEvent {
 export interface MockCandidateProfile {
   id: string;
   name: string;
+  enrollmentNumber: string;
   position: string;
   department: string;
   year: string;
+  section: string;
   biography: string;
   campaignLogo: string | null;
   campaignTitle: string;
@@ -55,110 +57,54 @@ export interface MockCandidateProfile {
 }
 
 export const MOCK_CANDIDATE_PROFILE: MockCandidateProfile = {
-  id: "CAN-001",
-  name: "Aarav Sharma",
-  position: "President",
-  department: "BCA",
-  year: "3rd Year",
-  biography:
-    "Interested in improving communication between students and college administration. I believe every student deserves a voice in shaping campus policies and activities.",
+  id: "",
+  name: "Candidate",
+  enrollmentNumber: "",
+  position: "",
+  department: "",
+  year: "",
+  section: "",
+  biography: "",
   campaignLogo: null,
-  campaignTitle: "Students First",
-  campaignDescription:
-    "Focused on improving student communication and campus activities. I want to create a more connected and supportive campus community.",
-  manifesto: [
-    {
-      id: "m-1",
-      title: "Academic Support",
-      content:
-        "Create more peer-learning opportunities and improve access to academic resources. I plan to establish study groups, tutoring sessions, and a shared resource library for all students.",
-    },
-    {
-      id: "m-2",
-      title: "Campus Facilities",
-      content:
-        "Advocate for better campus infrastructure including improved Wi-Fi, more study spaces, and upgraded laboratory equipment. Every student deserves a comfortable learning environment.",
-    },
-    {
-      id: "m-3",
-      title: "Student Activities",
-      content:
-        "Expand club funding and organize more inter-college events. I want to create a vibrant campus life that every student can be a part of.",
-    },
-    {
-      id: "m-4",
-      title: "Communication",
-      content:
-        "Establish a transparent feedback system between students and administration. Regular town halls and digital suggestion boxes will ensure every voice is heard.",
-    },
-  ],
-  applicationStatus: "approved",
-  profileCompletion: 85,
-  registrationDate: "25 July 2026",
+  campaignTitle: "",
+  campaignDescription: "",
+  manifesto: [],
+  applicationStatus: "draft",
+  profileCompletion: 0,
+  registrationDate: "",
   electionName: "Student Council Election 2026",
   votingPeriod: "1 August – 10 August 2026",
   resultsDate: "11 August 2026",
   socialLinks: {
-    email: "aarav.sharma@college.edu",
-    phone: "+91 98765 43210",
+    email: "",
+    phone: "",
   },
-  profileViews: 142,
-  verificationBadge: true,
+  profileViews: 0,
+  verificationBadge: false,
   adminNote: null,
 };
 
-export const MOCK_STATUS_TIMELINE: StatusTimelineEvent[] = [
-  { label: "Application Started", date: "25 July 2026", completed: true, current: false },
-  { label: "Profile Submitted", date: "27 July 2026", completed: true, current: false },
-  { label: "Under Review", date: "28 July 2026", completed: true, current: false },
-  { label: "Approved", date: "30 July 2026", completed: true, current: false },
-  { label: "Published", date: "31 July 2026", completed: true, current: true },
-];
+export const MOCK_STATUS_TIMELINE: StatusTimelineEvent[] = [];
 
-export const MOCK_CANDIDATE_NOTIFICATIONS: CandidateNotification[] = [
-  {
-    id: "n-1",
-    type: "success",
-    title: "Profile Approved",
-    message: "Your candidate profile has been approved and published.",
-    date: "30 July 2026",
-    read: true,
-  },
-  {
-    id: "n-2",
-    type: "info",
-    title: "Voting Is Now Open",
-    message: "Student voting has started. Election ends on 10 August 2026.",
-    date: "1 August 2026",
-    read: false,
-  },
-  {
-    id: "n-3",
-    type: "warning",
-    title: "Changes Requested",
-    message: "Election administration requested updates to your campaign description.",
-    date: "29 July 2026",
-    read: true,
-  },
-];
+export const MOCK_CANDIDATE_NOTIFICATIONS: CandidateNotification[] = [];
 
 export const PROFILE_CHECKLIST = [
-  { label: "Candidate name", checked: true },
-  { label: "Position", checked: true },
-  { label: "Department", checked: true },
-  { label: "Year", checked: true },
-  { label: "Biography", checked: true },
+  { label: "Candidate name", checked: false },
+  { label: "Position", checked: false },
+  { label: "Department", checked: false },
+  { label: "Year", checked: false },
+  { label: "Biography", checked: false },
   { label: "Campaign logo", checked: false },
-  { label: "Manifesto", checked: true },
+  { label: "Manifesto", checked: false },
   { label: "Social links", checked: false },
 ];
 
 export const ELECTION_INFO = {
   election: "Student Council Election 2026",
-  position: "President",
-  candidateId: "CAN-001",
-  registration: "Closed",
-  voting: "Open",
+  position: "—",
+  candidateId: "—",
+  registration: "Open",
+  voting: "Upcoming",
   results: "11 August 2026",
 };
 

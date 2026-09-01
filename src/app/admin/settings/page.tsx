@@ -377,7 +377,7 @@ export default function AdminSettingsPage() {
                       className={`relative p-6 rounded-xl border-2 text-center transition-all cursor-pointer ${
                         theme === option.id
                           ? "border-primary-600 bg-primary-50"
-                          : "border-border hover:border-border-strong bg-white"
+                          : "border-border hover:border-border-strong bg-white dark:bg-bg-secondary"
                       }`}
                     >
                       {theme === option.id && (

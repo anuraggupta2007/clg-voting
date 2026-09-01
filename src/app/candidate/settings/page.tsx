@@ -100,8 +100,8 @@ export default function CandidateSettingsPage() {
     <CandidateLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
-          <p className="text-gray-500">Manage your candidate account preferences.</p>
+          <h1 className="text-2xl font-bold text-text-primary">Settings</h1>
+          <p className="text-text-secondary">Manage your candidate account preferences.</p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-6">
@@ -110,10 +110,10 @@ export default function CandidateSettingsPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
                   activeTab === tab.id
                     ? "bg-primary-50 text-primary-700"
-                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                    : "text-text-secondary hover:bg-primary-50 hover:text-primary-700"
                 }`}
               >
                 <tab.icon className="w-4 h-4" />
@@ -126,22 +126,22 @@ export default function CandidateSettingsPage() {
           <div className="flex-1">
             {activeTab === "notifications" && (
               <Card className="p-6">
-                <h2 className="text-lg font-semibold text-gray-900 mb-1">Notifications</h2>
-                <p className="text-sm text-gray-500 mb-6">Choose what notifications you receive.</p>
+                <h2 className="text-lg font-semibold text-text-primary mb-1">Notifications</h2>
+                <p className="text-sm text-text-secondary mb-6">Choose what notifications you receive.</p>
                 <div className="space-y-4">
                   {notificationOptions.map((option) => (
                     <div
                       key={option.key}
-                      className="flex items-center justify-between p-4 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+                      className="flex items-center justify-between p-4 rounded-xl border border-border hover:bg-primary-50/50 dark:hover:bg-bg-tertiary transition-colors"
                     >
                       <div className="flex-1 mr-4">
-                        <p className="text-sm font-medium text-gray-900">{option.label}</p>
-                        <p className="text-sm text-gray-500">{option.description}</p>
+                        <p className="text-sm font-medium text-text-primary">{option.label}</p>
+                        <p className="text-sm text-text-secondary">{option.description}</p>
                       </div>
                       <button
                         onClick={() => toggleNotification(option.key)}
                         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                          settings.notifications[option.key] ? "bg-primary-600" : "bg-gray-200"
+                          settings.notifications[option.key] ? "bg-primary-600" : "bg-border"
                         }`}
                       >
                         <span
@@ -158,8 +158,8 @@ export default function CandidateSettingsPage() {
 
             {activeTab === "appearance" && (
               <Card className="p-6">
-                <h2 className="text-lg font-semibold text-gray-900 mb-1">Appearance</h2>
-                <p className="text-sm text-gray-500 mb-6">Customize the look and feel of the application.</p>
+                <h2 className="text-lg font-semibold text-text-primary mb-1">Appearance</h2>
+                <p className="text-sm text-text-secondary mb-6">Customize the look and feel of the application.</p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {appearanceOptions.map((option) => (
                     <button
@@ -168,17 +168,17 @@ export default function CandidateSettingsPage() {
                       className={`flex flex-col items-center gap-3 p-6 rounded-xl border-2 transition-all ${
                         theme === option.value
                           ? "border-primary-500 bg-primary-50"
-                          : "border-gray-200 hover:border-gray-300 bg-white"
+                          : "border-border hover:border-border-strong bg-white dark:bg-bg-secondary"
                       }`}
                     >
                       <option.icon
                         className={`w-8 h-8 ${
-                          theme === option.value ? "text-primary-600" : "text-gray-400"
+                          theme === option.value ? "text-primary-600" : "text-text-muted"
                         }`}
                       />
                       <span
                         className={`text-sm font-medium ${
-                          theme === option.value ? "text-primary-700" : "text-gray-600"
+                          theme === option.value ? "text-primary-700" : "text-text-secondary"
                         }`}
                       >
                         {option.label}
@@ -194,22 +194,22 @@ export default function CandidateSettingsPage() {
 
             {activeTab === "language" && (
               <Card className="p-6">
-                <h2 className="text-lg font-semibold text-gray-900 mb-1">Language</h2>
-                <p className="text-sm text-gray-500 mb-6">Select your preferred language.</p>
+                <h2 className="text-lg font-semibold text-text-primary mb-1">Language</h2>
+                <p className="text-sm text-text-secondary mb-6">Select your preferred language.</p>
                 <div className="space-y-3">
                   {languageOptions.map((option) => (
                     <button
                       key={option.value}
                       onClick={() => setSettings((prev) => ({ ...prev, language: option.value }))}
-                      className={`w-full flex items-center justify-between p-4 rounded-lg border-2 transition-all ${
+                      className={`w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all ${
                         settings.language === option.value
                           ? "border-primary-500 bg-primary-50"
-                          : "border-gray-200 hover:border-gray-300"
+                          : "border-border hover:border-border-strong"
                       }`}
                     >
                       <span
                         className={`text-sm font-medium ${
-                          settings.language === option.value ? "text-primary-700" : "text-gray-700"
+                          settings.language === option.value ? "text-primary-700" : "text-text-primary"
                         }`}
                       >
                         {option.label}
@@ -225,32 +225,32 @@ export default function CandidateSettingsPage() {
 
             {activeTab === "security" && (
               <Card className="p-6">
-                <h2 className="text-lg font-semibold text-gray-900 mb-1">Security</h2>
-                <p className="text-sm text-gray-500 mb-6">Manage your account security settings.</p>
+                <h2 className="text-lg font-semibold text-text-primary mb-1">Security</h2>
+                <p className="text-sm text-text-secondary mb-6">Manage your account security settings.</p>
                 <div className="space-y-4">
-                  <div className="p-4 rounded-lg border border-gray-200">
+                  <div className="p-4 rounded-xl border border-border">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-gray-900">Password</p>
-                        <p className="text-sm text-gray-500">Last changed 30 days ago</p>
+                        <p className="text-sm font-medium text-text-primary">Password</p>
+                        <p className="text-sm text-text-secondary">Last changed 30 days ago</p>
                       </div>
                       <Badge variant="success">Protected</Badge>
                     </div>
                   </div>
-                  <div className="p-4 rounded-lg border border-gray-200">
+                  <div className="p-4 rounded-xl border border-border">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-gray-900">Two-Factor Authentication</p>
-                        <p className="text-sm text-gray-500">Add an extra layer of security to your account.</p>
+                        <p className="text-sm font-medium text-text-primary">Two-Factor Authentication</p>
+                        <p className="text-sm text-text-secondary">Add an extra layer of security to your account.</p>
                       </div>
                       <Badge variant="warning">Not Enabled</Badge>
                     </div>
                   </div>
-                  <div className="p-4 rounded-lg border border-gray-200">
+                  <div className="p-4 rounded-xl border border-border">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-gray-900">Account Status</p>
-                        <p className="text-sm text-gray-500">Your account is in good standing.</p>
+                        <p className="text-sm font-medium text-text-primary">Account Status</p>
+                        <p className="text-sm text-text-secondary">Your account is in good standing.</p>
                       </div>
                       <Badge variant="success">Active</Badge>
                     </div>
@@ -268,34 +268,34 @@ export default function CandidateSettingsPage() {
 
             {activeTab === "account" && (
               <Card className="p-6">
-                <h2 className="text-lg font-semibold text-gray-900 mb-1">Account</h2>
-                <p className="text-sm text-gray-500 mb-6">Manage your account actions.</p>
+                <h2 className="text-lg font-semibold text-text-primary mb-1">Account</h2>
+                <p className="text-sm text-text-secondary mb-6">Manage your account actions.</p>
                 <div className="space-y-4">
                   <button
                     onClick={() => setShowSignOutModal(true)}
-                    className="w-full flex items-center justify-between p-4 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+                    className="w-full flex items-center justify-between p-4 rounded-xl border border-border hover:bg-primary-50/50 dark:hover:bg-bg-tertiary transition-colors"
                   >
                     <div className="flex items-center gap-3">
-                      <LogOut className="w-5 h-5 text-gray-500" />
+                      <LogOut className="w-5 h-5 text-error-600" />
                       <div className="text-left">
-                        <p className="text-sm font-medium text-gray-900">Sign Out</p>
-                        <p className="text-sm text-gray-500">Sign out of your candidate account.</p>
+                        <p className="text-sm font-medium text-text-primary">Sign Out</p>
+                        <p className="text-sm text-text-secondary">Sign out of your candidate account.</p>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-gray-400" />
+                    <ChevronRight className="w-5 h-5 text-text-muted" />
                   </button>
                   <button
                     onClick={() => setShowDeleteModal(true)}
-                    className="w-full flex items-center justify-between p-4 rounded-lg border border-red-200 hover:bg-red-50 transition-colors"
+                    className="w-full flex items-center justify-between p-4 rounded-xl border border-error-100 hover:bg-error-50 transition-colors"
                   >
                     <div className="flex items-center gap-3">
-                      <Trash2 className="w-5 h-5 text-red-500" />
+                      <Trash2 className="w-5 h-5 text-error-500" />
                       <div className="text-left">
-                        <p className="text-sm font-medium text-red-900">Request Account Deletion</p>
-                        <p className="text-sm text-red-600">Permanently delete your account and data.</p>
+                        <p className="text-sm font-medium text-error-600">Request Account Deletion</p>
+                        <p className="text-sm text-error-500">Permanently delete your account and data.</p>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-red-400" />
+                    <ChevronRight className="w-5 h-5 text-error-100" />
                   </button>
                 </div>
               </Card>
@@ -306,15 +306,15 @@ export default function CandidateSettingsPage() {
 
       {showSignOutModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setShowSignOutModal(false)} />
-          <div className="relative bg-white rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
+          <div className="absolute inset-0 bg-black/50 dark:bg-black/70" onClick={() => setShowSignOutModal(false)} />
+          <div className="relative bg-white dark:bg-[#1C1F33] rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-primary-50 flex items-center justify-center">
                 <LogOut className="w-5 h-5 text-primary-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900">Sign Out?</h3>
+              <h3 className="text-lg font-semibold text-text-primary">Sign Out?</h3>
             </div>
-            <p className="text-sm text-gray-600 mb-6">
+            <p className="text-sm text-text-secondary mb-6">
               You will need to sign in again to access your candidate account.
             </p>
             <div className="flex gap-3 justify-end">
@@ -329,19 +329,19 @@ export default function CandidateSettingsPage() {
 
       {showDeleteModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setShowDeleteModal(false)} />
-          <div className="relative bg-white rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
+          <div className="absolute inset-0 bg-black/50 dark:bg-black/70" onClick={() => setShowDeleteModal(false)} />
+          <div className="relative bg-white dark:bg-[#1C1F33] rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
-                <AlertTriangle className="w-5 h-5 text-red-600" />
+              <div className="w-10 h-10 rounded-full bg-error-50 flex items-center justify-center">
+                <AlertTriangle className="w-5 h-5 text-error-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900">Request Account Deletion?</h3>
+              <h3 className="text-lg font-semibold text-text-primary">Request Account Deletion?</h3>
             </div>
-            <p className="text-sm text-gray-600 mb-2">
+            <p className="text-sm text-text-secondary mb-2">
               This action will send a deletion request to your institution for review. Your account
               and associated data will be permanently deleted once approved.
             </p>
-            <p className="text-sm text-gray-500 mb-6">
+            <p className="text-sm text-text-muted mb-6">
               This process may take up to 7 business days to complete.
             </p>
             <div className="flex gap-3 justify-end">

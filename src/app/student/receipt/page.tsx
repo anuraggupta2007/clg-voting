@@ -18,6 +18,19 @@ import { ArrowLeft, Users } from "lucide-react";
 export default function ReceiptPage() {
   const receipt = MOCK_RECEIPT;
 
+  if (!receipt) {
+    return (
+      <StudentLayout>
+        <div className="max-w-4xl mx-auto space-y-6">
+          <ReceiptHeader electionName="Student Council Election 2026" />
+          <div className="bg-white rounded-2xl p-12 border border-border shadow-sm text-center">
+            <p className="text-text-secondary text-sm">No receipt available. Cast your vote to receive a receipt.</p>
+          </div>
+        </div>
+      </StudentLayout>
+    );
+  }
+
   return (
     <StudentLayout>
           <div className="max-w-4xl mx-auto space-y-6">
