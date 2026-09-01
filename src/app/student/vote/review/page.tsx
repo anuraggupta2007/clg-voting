@@ -11,13 +11,15 @@ import { BallotReview } from "@/components/voting/BallotReview";
 import { PrivacyNotice } from "@/components/voting/PrivacyNotice";
 import { ConfirmationModal } from "@/components/voting/ConfirmationModal";
 import { VotingProvider, useVoting } from "@/components/voting/VotingContext";
-import { MOCK_VOTING_ELECTION } from "@/lib/election-voting-data";
+import { MOCK_VOTING_ELECTION, type VotingElection } from "@/lib/election-voting-data";
+import { getApprovedCandidatesAsVotingPositions } from "@/lib/candidate-application-store";
 
 const STEPS = ["Select Candidates", "Review Ballot", "Confirm Vote"];
 
 function ReviewPageInner() {
   const router = useRouter();
-  const election = MOCK_VOTING_ELECTION;
+  const positions = getApprovedCandidatesAsVotingPositions();
+  const election: VotingElection = { ...MOCK_VOTING_ELECTION, positions };
   const { selections } = useVoting();
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [showModal, setShowModal] = useState(false);

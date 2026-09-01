@@ -5,8 +5,8 @@ import Link from "next/link";
 import { Scale, CheckCircle2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
-  CANDIDATES,
-} from "@/lib/candidate-data";
+  getApprovedCandidatesAsCandidateList,
+} from "@/lib/candidate-application-store";
 
 import { CandidateGrid } from "@/components/candidate/CandidateGrid";
 import { CandidateSearch } from "@/components/candidate/CandidateSearch";
@@ -56,7 +56,7 @@ export default function CandidatePage() {
   const clearSelect = () => setSelectedIds(new Set());
 
   const filteredCandidates = useMemo(() => {
-    let results = [...CANDIDATES];
+    let results = getApprovedCandidatesAsCandidateList();
 
     if (searchQuery.trim()) {
       const lower = searchQuery.toLowerCase();

@@ -18,14 +18,16 @@ import {
   AlreadyVotedState,
 } from "@/components/voting/VotingStates";
 import { VotingProvider, useVoting } from "@/components/voting/VotingContext";
-import { MOCK_VOTING_ELECTION } from "@/lib/election-voting-data";
+import { MOCK_VOTING_ELECTION, type VotingElection } from "@/lib/election-voting-data";
+import { getApprovedCandidatesAsVotingPositions } from "@/lib/candidate-application-store";
 import { AlertTriangle } from "lucide-react";
 
 const STEPS = ["Select Candidates", "Review Ballot", "Confirm Vote"];
 
 function VotePageInner() {
   const router = useRouter();
-  const election = MOCK_VOTING_ELECTION;
+  const positions = getApprovedCandidatesAsVotingPositions();
+  const election: VotingElection = { ...MOCK_VOTING_ELECTION, positions };
   const { selections, setCandidate, setAbstain, getSelection } = useVoting();
 
   const [currentPosition, setCurrentPosition] = useState(0);
