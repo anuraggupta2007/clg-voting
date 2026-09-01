@@ -22,7 +22,7 @@ export default function VerifyPage() {
           <div className="w-8 h-8 rounded-xl bg-primary-600 flex items-center justify-center font-bold text-white text-xs">
             CV
           </div>
-          <span className="font-semibold text-text-primary text-sm">CampusVote</span>
+          <span className="font-semibold text-text-primary text-sm">Don Bosco Institute of Technology</span>
         </div>
       </div>
 

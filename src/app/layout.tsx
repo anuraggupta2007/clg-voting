@@ -12,7 +12,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "CampusVote - Secure & Neutral Student Elections",
+  title: "Don Bosco Institute of Technology - Secure & Neutral Student Elections",
   description: "Secure, transparent, and neutral online election platform for student council voting.",
 };
 

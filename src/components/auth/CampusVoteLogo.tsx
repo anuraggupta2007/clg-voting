@@ -1,5 +1,4 @@
 import React from "react";
-import { Vote } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CampusVoteLogoProps {
@@ -15,17 +14,17 @@ export const CampusVoteLogo: React.FC<CampusVoteLogoProps> = ({
 }) => {
   const sizeClasses = {
     sm: {
-      logo: "w-9 h-9 text-sm",
+      logo: "w-9 h-9",
       title: "text-sm",
       subtitle: "text-[9px]",
     },
     md: {
-      logo: "w-10 h-10 text-base",
+      logo: "w-10 h-10",
       title: "text-base",
       subtitle: "text-[10px]",
     },
     lg: {
-      logo: "w-12 h-12 text-lg",
+      logo: "w-12 h-12",
       title: "text-lg",
       subtitle: "text-[10px]",
     },
@@ -34,27 +33,24 @@ export const CampusVoteLogo: React.FC<CampusVoteLogoProps> = ({
   const theme =
     variant === "light"
       ? {
-          logoBg: "bg-white/10 border border-white/20 text-white",
           title: "text-white",
           subtitle: "text-white/60",
         }
       : {
-          logoBg: "bg-primary-600 text-white shadow-sm shadow-primary-600/30",
           title: "text-text-primary",
           subtitle: "text-text-secondary",
         };
 
   return (
     <div className={cn("flex items-center gap-3", className)}>
-      <div
+      <img
+        src="/image/dbit logo.jpeg"
+        alt="DBIT Logo"
         className={cn(
-          "rounded-xl flex items-center justify-center font-bold shrink-0",
-          sizeClasses[size].logo,
-          theme.logoBg
+          "rounded-xl object-cover shrink-0",
+          sizeClasses[size].logo
         )}
-      >
-        <Vote className="w-[55%] h-[55%]" />
-      </div>
+      />
       <div className="flex flex-col">
         <span
           className={cn(
@@ -63,7 +59,7 @@ export const CampusVoteLogo: React.FC<CampusVoteLogoProps> = ({
             theme.title
           )}
         >
-          CampusVote
+          Don Bosco Institute of Technology
         </span>
         <span
           className={cn(

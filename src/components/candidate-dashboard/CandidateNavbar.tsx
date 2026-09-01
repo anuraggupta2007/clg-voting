@@ -33,11 +33,9 @@ export const CandidateNavbar: React.FC<CandidateNavbarProps> = ({
           <Menu className="w-5 h-5" />
         </button>
         <div className="flex items-center gap-2 lg:hidden">
-          <div className="w-8 h-8 rounded-xl bg-primary-600 flex items-center justify-center font-bold text-white text-xs">
-            CV
-          </div>
+          <img src="/image/dbit logo.jpeg" alt="DBIT Logo" className="w-8 h-8 rounded-xl object-cover" />
           <span className="font-semibold text-text-primary text-sm tracking-wide">
-            CampusVote
+            Don Bosco Institute of Technology
           </span>
         </div>
         <div className="hidden lg:flex items-center gap-2">

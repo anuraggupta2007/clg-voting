@@ -76,12 +76,10 @@ export const CandidateSidebar: React.FC<CandidateSidebarProps> = ({
       )}
     >
       <div className="flex items-center gap-3 px-6 py-5 border-b border-border">
-        <div className="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center font-bold text-white text-sm">
-          CV
-        </div>
+        <img src="/image/dbit logo.jpeg" alt="DBIT Logo" className="w-10 h-10 rounded-xl object-cover" />
         <div className="flex flex-col">
           <span className="font-semibold text-text-primary tracking-wide text-sm">
-            CampusVote
+            Don Bosco Institute of Technology
           </span>
           <span className="text-[10px] text-text-muted font-semibold uppercase tracking-wider">
             Candidate Portal

@@ -72,7 +72,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, className }) =
           {/* Footer */}
           <div className="hidden lg:block p-6 text-center">
             <p className="text-[11px] text-text-muted font-medium">
-              © 2026 CampusVote. Secure &amp; Neutral Student Elections.
+              © 2026 Don Bosco Institute of Technology. Secure &amp; Neutral Student Elections.
             </p>
           </div>
         </div>

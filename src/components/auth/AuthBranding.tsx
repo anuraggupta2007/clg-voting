@@ -61,7 +61,7 @@ export const AuthBranding: React.FC = () => {
 
       <div className="pb-2">
         <p className="text-[11px] text-text-muted">
-          &copy; 2026 CampusVote — Student Council Election Platform.
+          &copy; 2026 Don Bosco Institute of Technology — Student Council Election Platform.
         </p>
       </div>
     </div>

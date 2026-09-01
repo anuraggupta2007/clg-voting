@@ -31,7 +31,7 @@ Verification: ${window.location.origin}${receipt.verificationUrl}
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `CampusVote-Receipt-${receipt.receiptId}.txt`;
+    a.download = `DBIT-Receipt-${receipt.receiptId}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -44,7 +44,7 @@ Verification: ${window.location.origin}${receipt.verificationUrl}
     if (navigator.share) {
       try {
         await navigator.share({
-          title: "CampusVote Vote Receipt",
+          title: "DBIT Vote Receipt",
           text: `Vote Receipt for ${receipt.electionName}\nReceipt ID: ${receipt.receiptId}`,
           url: `${window.location.origin}${receipt.verificationUrl}`,
         });
