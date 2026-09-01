@@ -167,10 +167,16 @@ body {
 
   --color-success-50: #0d2a1a;
   --color-success-100: #153d28;
+  --color-success-500: #35B779;
+  --color-success-600: #2DA56A;
   --color-warning-50: #2a2210;
   --color-warning-100: #3d3218;
+  --color-warning-500: #F2B84B;
+  --color-warning-600: #E8A83D;
   --color-error-50: #2a1515;
   --color-error-100: #3d1f1f;
+  --color-error-500: #E05252;
+  --color-error-600: #D44444;
 }
 
 .dark body {
@@ -185,4 +191,21 @@ body {
 
 .dark ::-webkit-scrollbar-thumb {
   background: #3A3D55;
+}
+
+/* Dark mode: remap bg-white to card color for surfaces */
+.dark .bg-white {
+  background-color: #1C1F33 !important;
+}
+
+/* Dark mode: remap bg-black overlays to darker shade */
+.dark .bg-black\/40,
+.dark .bg-black\/50 {
+  background-color: rgba(10, 11, 20, 0.6) !important;
+}
+
+/* Dark mode: keep toggle switch knobs white */
+.dark .bg-white[class*="rounded-full"],
+.dark .bg-white[class*="rounded-full"][class*="w-"] {
+  background-color: #FFFFFF !important;
 }
