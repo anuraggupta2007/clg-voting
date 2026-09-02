@@ -4,7 +4,7 @@ import { AdminLayout } from "@/components/admin-dashboard/AdminLayout"
 import { Card } from "@/components/ui/Card"
 import { Button } from "@/components/ui/Button"
 import { Badge } from "@/components/ui/Badge"
-import { MOCK_ADMIN_CANDIDATES, CANDIDATE_STATUS_MAP } from "@/lib/admin-dashboard-data"
+import { CANDIDATE_STATUS_MAP } from "@/lib/admin-dashboard-data"
 import {
   updateApplicationStatus,
   getAllApplications,
@@ -20,9 +20,11 @@ import {
   ChevronDown,
   X,
 } from "lucide-react"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 
 export default function CandidateManagementPage() {
+  const [candidates, setCandidates] = useState<CandidateApplicationData[]>([])
+  const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
   const [positionFilter, setPositionFilter] = useState("all")
   const [statusFilter, setStatusFilter] = useState("all")
@@ -40,37 +42,12 @@ export default function CandidateManagementPage() {
   const statuses = ["all", "draft", "submitted", "under_review", "changes_requested", "approved", "rejected"]
   const departments = ["all", "BCA", "BBA", "BSc IT"]
 
-  const candidates = useMemo(() => {
-    const storeApps = getAllApplications();
-    const merged = MOCK_ADMIN_CANDIDATES.map((mc) => {
-      const app = storeApps.find((a) => a.id === mc.id);
-      if (app) {
-        return {
-          ...mc,
-          applicationStatus: app.status,
-          rejectionReason: app.rejectionReason,
-          adminNote: app.adminNote,
-          enrollmentNumber: app.enrollmentNumber,
-          section: app.section,
-          email: app.email,
-          phone: app.phone,
-          photo: app.photo,
-          manifesto: app.manifesto,
-          bio: app.bio,
-        };
-      }
-      return mc;
-    });
-    const newApps = storeApps
-      .filter((a) => !MOCK_ADMIN_CANDIDATES.some((mc) => mc.id === a.id))
-      .map((a) => ({
-        ...a,
-        applicationStatus: a.status,
-        profileStatus: "Pending",
-        submittedDate: a.submittedDate || "—",
-      }));
-    return [...merged, ...newApps];
-  }, []);
+  useEffect(() => {
+    getAllApplications()
+      .then(setCandidates)
+      .catch(() => setCandidates([]))
+      .finally(() => setLoading(false))
+  }, [])
 
   const filteredCandidates = useMemo(() => {
     return candidates.filter((c) => {
@@ -78,7 +55,7 @@ export default function CandidateManagementPage() {
         c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         c.id.toLowerCase().includes(searchQuery.toLowerCase())
       const matchesPosition = positionFilter === "all" || c.position === positionFilter
-      const matchesStatus = statusFilter === "all" || c.applicationStatus === statusFilter
+      const matchesStatus = statusFilter === "all" || c.status === statusFilter
       const matchesDepartment = departmentFilter === "all" || c.department === departmentFilter
       return matchesSearch && matchesPosition && matchesStatus && matchesDepartment
     })
@@ -109,25 +86,28 @@ export default function CandidateManagementPage() {
     setRejectReason("")
   }
 
-  const handleApprove = () => {
+  const handleApprove = async () => {
     if (!selectedCandidate) return;
-    updateApplicationStatus(selectedCandidate.id, "approved");
+    await updateApplicationStatus(selectedCandidate.id, "approved");
     showToast(`${selectedCandidate.name} has been approved.`);
     closeReview();
+    getAllApplications().then(setCandidates).catch(() => {});
   };
 
-  const handleRequestChanges = () => {
+  const handleRequestChanges = async () => {
     if (!selectedCandidate || !changesText.trim()) return;
-    updateApplicationStatus(selectedCandidate.id, "changes_requested", undefined, changesText.trim());
+    await updateApplicationStatus(selectedCandidate.id, "changes_requested", undefined, changesText.trim());
     showToast(`Changes requested for ${selectedCandidate.name}.`);
     closeReview();
+    getAllApplications().then(setCandidates).catch(() => {});
   };
 
-  const handleReject = () => {
+  const handleReject = async () => {
     if (!selectedCandidate || !rejectReason.trim()) return;
-    updateApplicationStatus(selectedCandidate.id, "rejected", rejectReason.trim());
+    await updateApplicationStatus(selectedCandidate.id, "rejected", rejectReason.trim());
     showToast(`${selectedCandidate.name} has been rejected.`, "error");
     closeReview();
+    getAllApplications().then(setCandidates).catch(() => {});
   };
 
   return (
@@ -236,8 +216,8 @@ export default function CandidateManagementPage() {
                         <td className="px-4 py-3 text-sm text-text-primary">{candidate.position}</td>
                         <td className="px-4 py-3 text-sm text-text-primary">{candidate.department}</td>
                         <td className="px-4 py-3">
-                          <Badge variant={getStatusBadge(candidate.applicationStatus)}>
-                            {CANDIDATE_STATUS_MAP[candidate.applicationStatus]?.label}
+                          <Badge variant={getStatusBadge(candidate.status)}>
+                            {CANDIDATE_STATUS_MAP[candidate.status]?.label}
                           </Badge>
                         </td>
                         <td className="px-4 py-3 text-sm text-text-secondary">
@@ -280,8 +260,8 @@ export default function CandidateManagementPage() {
                       <span className="text-sm text-text-secondary">{candidate.department}</span>
                     </div>
                     <div className="flex gap-2">
-                      <Badge variant={getStatusBadge(candidate.applicationStatus)}>
-                        {CANDIDATE_STATUS_MAP[candidate.applicationStatus]?.label}
+                      <Badge variant={getStatusBadge(candidate.status)}>
+                        {CANDIDATE_STATUS_MAP[candidate.status]?.label}
                       </Badge>
                     </div>
                     {candidate.submittedDate && candidate.submittedDate !== "—" && (
@@ -348,8 +328,8 @@ export default function CandidateManagementPage() {
                     </div>
                     <div>
                       <label className="text-xs text-text-muted">Current Status</label>
-                      <Badge variant={getStatusBadge(selectedCandidate.applicationStatus)}>
-                        {CANDIDATE_STATUS_MAP[selectedCandidate.applicationStatus]?.label}
+                      <Badge variant={getStatusBadge(selectedCandidate.status)}>
+                        {CANDIDATE_STATUS_MAP[selectedCandidate.status]?.label}
                       </Badge>
                     </div>
                   </div>
@@ -440,7 +420,7 @@ export default function CandidateManagementPage() {
                     <Button
                       onClick={() => setShowApproveModal(true)}
                       className="bg-success-600 hover:bg-success-600 text-white"
-                      disabled={selectedCandidate.applicationStatus === "approved"}
+                      disabled={selectedCandidate.status === "approved"}
                     >
                       <CheckCircle2 className="h-4 w-4 mr-2" />
                       Approve
@@ -448,7 +428,7 @@ export default function CandidateManagementPage() {
                     <Button
                       onClick={() => setShowChangesModal(true)}
                       variant="outline"
-                      disabled={selectedCandidate.applicationStatus === "approved" || selectedCandidate.applicationStatus === "rejected"}
+                      disabled={selectedCandidate.status === "approved" || selectedCandidate.status === "rejected"}
                     >
                       <AlertCircle className="h-4 w-4 mr-2" />
                       Request Changes
@@ -456,7 +436,7 @@ export default function CandidateManagementPage() {
                     <Button
                       onClick={() => setShowRejectModal(true)}
                       variant="danger"
-                      disabled={selectedCandidate.applicationStatus === "approved" || selectedCandidate.applicationStatus === "rejected"}
+                      disabled={selectedCandidate.status === "approved" || selectedCandidate.status === "rejected"}
                     >
                       <XCircle className="h-4 w-4 mr-2" />
                       Reject

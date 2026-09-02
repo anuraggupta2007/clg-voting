@@ -55,14 +55,15 @@ export const CandidateLayout: React.FC<CandidateLayoutProps> = ({
     let foundId = false;
 
     if (auth?.email) {
-      const app = getApplicationByEmail(auth.email);
-      if (app) {
-        setUserName(app.name);
-        setUserId(app.id);
-        setStatus(app.status);
-        foundName = true;
-        foundId = true;
-      }
+      getApplicationByEmail(auth.email).then((app) => {
+        if (app) {
+          setUserName(app.name);
+          setUserId(app.id);
+          setStatus(app.status);
+          foundName = true;
+          foundId = true;
+        }
+      });
     }
 
     if (!foundName) {

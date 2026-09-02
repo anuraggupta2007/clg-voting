@@ -12,17 +12,23 @@ export function useCandidateApplication() {
   useEffect(() => {
     const auth = getAuthCookie();
     if (auth?.email) {
-      const app = getApplicationByEmail(auth.email);
-      setApplication(app || null);
+      getApplicationByEmail(auth.email).then((app) => {
+        setApplication(app || null);
+        setLoading(false);
+      }).catch(() => {
+        setApplication(null);
+        setLoading(false);
+      });
+    } else {
+      setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   return { application, loading };
 }
 
-export function getCandidateApplication(): CandidateApplicationData | null {
+export function getCandidateApplication(): Promise<CandidateApplicationData | null> {
   const auth = typeof window !== "undefined" ? getAuthCookie() : null;
-  if (!auth?.email) return null;
-  return getApplicationByEmail(auth.email) || null;
+  if (!auth?.email) return Promise.resolve(null);
+  return getApplicationByEmail(auth.email).then((app) => app || null);
 }

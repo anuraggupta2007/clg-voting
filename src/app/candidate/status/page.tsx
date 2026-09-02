@@ -7,9 +7,10 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import {
-  MOCK_CANDIDATE_PROFILE,
-  ELECTION_INFO,
-} from "@/lib/candidate-dashboard-data";
+  getApplicationByEmail,
+  POSITION_OPTIONS,
+} from "@/lib/candidate-application-store";
+import { getAuthCookie } from "@/lib/mock-auth";
 import {
   CheckCircle2,
   Clock,
@@ -25,33 +26,50 @@ import {
 export default function CandidateStatusPage() {
   const [showSubmitModal, setShowSubmitModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [profile, setProfile] = useState(MOCK_CANDIDATE_PROFILE);
+  const [profile, setProfile] = useState({
+    id: "",
+    name: "",
+    position: "",
+    enrollmentNumber: "",
+    department: "",
+    year: "",
+    section: "",
+    bio: "",
+    applicationStatus: "draft" as string,
+    adminNote: null as string | null,
+  });
+  const [loading, setLoading] = useState(true);
   const status = profile.applicationStatus;
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem("campusvote_application_status");
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (parsed.status) {
-          setProfile((prev) => ({
-            ...prev,
-            applicationStatus: parsed.status,
-            adminNote: parsed.adminNote || null,
-          }));
+    const auth = getAuthCookie();
+    if (auth?.email) {
+      getApplicationByEmail(auth.email).then((app) => {
+        if (app) {
+          setProfile({
+            id: app.id,
+            name: app.name,
+            position: app.position,
+            enrollmentNumber: app.enrollmentNumber,
+            department: app.department,
+            year: app.year,
+            section: app.section,
+            bio: app.bio,
+            applicationStatus: app.status,
+            adminNote: app.adminNote,
+          });
         }
-      }
-    } catch {}
+        setLoading(false);
+      }).catch(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   const handleSubmit = () => {
     setIsSubmitting(true);
     setTimeout(() => {
       const newStatus = "under_review";
-      localStorage.setItem(
-        "campusvote_application_status",
-        JSON.stringify({ status: newStatus })
-      );
       setProfile((prev) => ({
         ...prev,
         applicationStatus: newStatus,
@@ -321,41 +339,41 @@ export default function CandidateStatusPage() {
           <h2 className="text-lg font-bold text-text-primary mb-4">
             Election Information
           </h2>
-          <div className="space-y-3">
+            <div className="space-y-3">
             <div className="flex justify-between text-sm">
               <span className="text-text-secondary">Election</span>
               <span className="font-medium text-text-primary">
-                {ELECTION_INFO.election}
+                Student Council Election 2026
               </span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-text-secondary">Position</span>
               <span className="font-medium text-text-primary">
-                {ELECTION_INFO.position}
+                {profile.position || "—"}
               </span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-text-secondary">Candidate ID</span>
               <span className="font-mono font-medium text-text-primary">
-                {ELECTION_INFO.candidateId}
+                {profile.id || "—"}
               </span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-text-secondary">Registration</span>
               <Badge variant="neutral" className="text-[10px]">
-                {ELECTION_INFO.registration}
+                Closed
               </Badge>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-text-secondary">Voting</span>
               <Badge variant="success" className="text-[10px]">
-                {ELECTION_INFO.voting}
+                Open
               </Badge>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-text-secondary">Results</span>
               <span className="font-medium text-text-primary">
-                {ELECTION_INFO.results}
+                To be announced
               </span>
             </div>
           </div>
