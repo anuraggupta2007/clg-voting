@@ -161,7 +161,7 @@ export default function CandidateManagementPage() {
               <select
                 value={positionFilter}
                 onChange={(e) => setPositionFilter(e.target.value)}
-                className="appearance-none bg-white dark:bg-[#1C1F33] border border-border rounded-lg px-4 py-2 pr-8 text-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="appearance-none bg-white dark:bg-[#252540] border border-border rounded-lg px-4 py-2 pr-8 text-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
                 {positions.map((pos) => (
                   <option key={pos} value={pos}>
@@ -176,7 +176,7 @@ export default function CandidateManagementPage() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="appearance-none bg-white dark:bg-[#1C1F33] border border-border rounded-lg px-4 py-2 pr-8 text-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="appearance-none bg-white dark:bg-[#252540] border border-border rounded-lg px-4 py-2 pr-8 text-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
                 {statuses.map((s) => (
                   <option key={s} value={s}>
@@ -191,7 +191,7 @@ export default function CandidateManagementPage() {
               <select
                 value={departmentFilter}
                 onChange={(e) => setDepartmentFilter(e.target.value)}
-                className="appearance-none bg-white dark:bg-[#1C1F33] border border-border rounded-lg px-4 py-2 pr-8 text-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="appearance-none bg-white dark:bg-[#252540] border border-border rounded-lg px-4 py-2 pr-8 text-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
                 {departments.map((d) => (
                   <option key={d} value={d}>
@@ -301,8 +301,8 @@ export default function CandidateManagementPage() {
               onClick={closeReview}
             />
 
-            <div className="relative ml-auto w-full max-w-lg bg-white dark:bg-[#1C1F33] shadow-2xl overflow-y-auto">
-              <div className="sticky top-0 bg-white dark:bg-[#1C1F33] border-b border-border px-6 py-4 flex items-center justify-between">
+            <div className="relative ml-auto w-full max-w-lg bg-white dark:bg-[#252540] shadow-2xl overflow-y-auto">
+              <div className="sticky top-0 bg-white dark:bg-[#252540] border-b border-border px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <button onClick={closeReview} className="p-1 hover:bg-bg-tertiary rounded-lg transition-colors">
                     <ArrowLeft className="h-5 w-5 text-text-secondary" />
@@ -474,7 +474,7 @@ export default function CandidateManagementPage() {
         {showApproveModal && (
           <div className="fixed inset-0 z-[60] flex items-center justify-center">
             <div className="absolute inset-0 bg-black/50" onClick={() => setShowApproveModal(false)} />
-            <div className="relative bg-white dark:bg-[#1C1F33] rounded-xl shadow-2xl max-w-md w-full mx-4 p-6 space-y-4">
+            <div className="relative bg-white dark:bg-[#252540] rounded-xl shadow-2xl max-w-md w-full mx-4 p-6 space-y-4">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full bg-success-100 flex items-center justify-center">
                   <CheckCircle2 className="h-5 w-5 text-success-600" />
@@ -502,7 +502,7 @@ export default function CandidateManagementPage() {
         {showChangesModal && (
           <div className="fixed inset-0 z-[60] flex items-center justify-center">
             <div className="absolute inset-0 bg-black/50" onClick={() => setShowChangesModal(false)} />
-            <div className="relative bg-white dark:bg-[#1C1F33] rounded-xl shadow-2xl max-w-md w-full mx-4 p-6 space-y-4">
+            <div className="relative bg-white dark:bg-[#252540] rounded-xl shadow-2xl max-w-md w-full mx-4 p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-text-primary">Request Changes</h3>
                 <button onClick={() => setShowChangesModal(false)} className="p-1 hover:bg-bg-tertiary rounded">
@@ -535,7 +535,7 @@ export default function CandidateManagementPage() {
         {showRejectModal && (
           <div className="fixed inset-0 z-[60] flex items-center justify-center">
             <div className="absolute inset-0 bg-black/50" onClick={() => setShowRejectModal(false)} />
-            <div className="relative bg-white dark:bg-[#1C1F33] rounded-xl shadow-2xl max-w-md w-full mx-4 p-6 space-y-4">
+            <div className="relative bg-white dark:bg-[#252540] rounded-xl shadow-2xl max-w-md w-full mx-4 p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-text-primary">Reject Application</h3>
                 <button onClick={() => setShowRejectModal(false)} className="p-1 hover:bg-bg-tertiary rounded">

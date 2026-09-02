@@ -47,7 +47,7 @@ export default function StudentDashboardPage() {
 
             {/* Election Card */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-white dark:bg-[#1C1F33] rounded-2xl p-5 border border-border shadow-sm">
+              <div className="bg-white dark:bg-[#252540] rounded-2xl p-5 border border-border shadow-sm">
                 <h2 className="text-lg font-semibold text-text-primary">Student Council Election 2026</h2>
                 <p className="text-sm text-text-secondary mt-1">
                   Voting period: 1 August &ndash; 10 August 2026 &bull; 5:00 PM
@@ -62,7 +62,7 @@ export default function StudentDashboardPage() {
             {/* Quick Actions */}
             <div className="grid grid-cols-2 gap-4">
               <Link href="/student/vote">
-                <div className="p-4 rounded-xl bg-white dark:bg-[#1C1F33] border border-border hover:bg-primary-50 hover:border-primary-200 cursor-pointer transition-colors shadow-sm">
+                <div className="p-4 rounded-xl bg-white dark:bg-[#252540] border border-border hover:bg-primary-50 hover:border-primary-200 cursor-pointer transition-colors shadow-sm">
                   <div className="w-10 h-10 rounded-xl bg-primary-100 flex items-center justify-center mb-3">
                     <User className="w-5 h-5 text-primary-600" />
                   </div>
@@ -71,7 +71,7 @@ export default function StudentDashboardPage() {
                 </div>
               </Link>
               <Link href="/student/candidates">
-                <div className="p-4 rounded-xl bg-white dark:bg-[#1C1F33] border border-border hover:bg-primary-50 hover:border-primary-200 cursor-pointer transition-colors shadow-sm">
+                <div className="p-4 rounded-xl bg-white dark:bg-[#252540] border border-border hover:bg-primary-50 hover:border-primary-200 cursor-pointer transition-colors shadow-sm">
                   <div className="w-10 h-10 rounded-xl bg-primary-100 flex items-center justify-center mb-3">
                     <BookOpen className="w-5 h-5 text-primary-600" />
                   </div>
@@ -82,7 +82,7 @@ export default function StudentDashboardPage() {
             </div>
 
             {/* Recent Activity */}
-            <div className="bg-white dark:bg-[#1C1F33] rounded-2xl p-4 border border-border shadow-sm">
+            <div className="bg-white dark:bg-[#252540] rounded-2xl p-4 border border-border shadow-sm">
               <p className="text-sm text-text-secondary">No recent activity</p>
             </div>
           </div>

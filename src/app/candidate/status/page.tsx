@@ -78,7 +78,7 @@ export default function CandidateStatusPage() {
                   Your profile has been approved and published.
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                  <div className="p-3 rounded-xl bg-white dark:bg-[#1C1F33]">
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#252540]">
                     <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">
                       Position
                     </p>
@@ -86,7 +86,7 @@ export default function CandidateStatusPage() {
                       {profile.position}
                     </p>
                   </div>
-                  <div className="p-3 rounded-xl bg-white dark:bg-[#1C1F33]">
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#252540]">
                     <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">
                       Candidate ID
                     </p>
@@ -94,7 +94,7 @@ export default function CandidateStatusPage() {
                       {profile.id}
                     </p>
                   </div>
-                  <div className="p-3 rounded-xl bg-white dark:bg-[#1C1F33]">
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#252540]">
                     <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">
                       Application
                     </p>
@@ -102,7 +102,7 @@ export default function CandidateStatusPage() {
                       Approved
                     </Badge>
                   </div>
-                  <div className="p-3 rounded-xl bg-white dark:bg-[#1C1F33]">
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#252540]">
                     <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">
                       Profile
                     </p>
@@ -165,7 +165,7 @@ export default function CandidateStatusPage() {
                   Election administration has requested changes to your profile.
                 </p>
                 {profile.adminNote && (
-                  <div className="p-3 rounded-xl bg-white dark:bg-[#1C1F33] mb-4">
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#252540] mb-4">
                     <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">
                       Requested Changes
                     </p>
@@ -200,7 +200,7 @@ export default function CandidateStatusPage() {
                 <p className="text-sm text-text-secondary mb-3">
                   Your candidate application was not approved.
                 </p>
-                <div className="p-3 rounded-xl bg-white dark:bg-[#1C1F33] mb-4">
+                <div className="p-3 rounded-xl bg-white dark:bg-[#252540] mb-4">
                   <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-1">
                     Reason
                   </p>
@@ -405,7 +405,7 @@ export default function CandidateStatusPage() {
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setShowSubmitModal(false)}
           />
-          <div className="relative bg-white dark:bg-[#1C1F33] rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
+          <div className="relative bg-white dark:bg-[#252540] rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-bold text-text-primary">
                 Submit Application for Approval?
