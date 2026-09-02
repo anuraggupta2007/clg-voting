@@ -186,7 +186,7 @@ export default function LoginPage() {
       <div className="space-y-5">
         <AuthHeader
           title="Welcome Back!"
-          subtitle="Sign in to continue to CampusVote."
+          subtitle="Sign in to continue to Don Bosco Institute of Technology."
         />
 
         {/* Role Selection */}
