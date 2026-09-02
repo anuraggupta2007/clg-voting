@@ -1,4 +1,4 @@
-import { api } from "../api";
+import { api } from "./client";
 import type { ApplicationStatus } from "../candidate-dashboard-data";
 
 export interface CandidateApplication {

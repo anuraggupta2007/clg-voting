@@ -1,27 +1,27 @@
-export { api, ApiError } from "./api";
-export { authApi } from "./api/auth";
-export type { LoginRequest, LoginResponse, ResetPasswordRequest, ChangePasswordRequest } from "./api/auth";
+export { api, ApiError } from "./client";
+export { authApi } from "./auth";
+export type { LoginRequest, LoginResponse, ResetPasswordRequest, ChangePasswordRequest } from "./auth";
 
-export { candidateApi } from "./api/candidates";
-export type { CandidateApplication, SubmitApplicationPayload, UpdateStatusPayload } from "./api/candidates";
+export { candidateApi } from "./candidates";
+export type { CandidateApplication, SubmitApplicationPayload, UpdateStatusPayload } from "./candidates";
 
-export { electionApi } from "./api/elections";
-export type { Election, ElectionPosition, ElectionCandidate, CastVotePayload, VoteResponse } from "./api/elections";
+export { electionApi } from "./elections";
+export type { Election, ElectionPosition, ElectionCandidate, CastVotePayload, VoteResponse } from "./elections";
 
-export { studentApi } from "./api/students";
-export type { StudentProfile, NotificationSettings, ActiveSession } from "./api/students";
+export { studentApi } from "./students";
+export type { StudentProfile, NotificationSettings, ActiveSession } from "./students";
 
-export { adminApi } from "./api/admin";
-export type { AdminElection, AdminStudent, ScheduleEvent, Announcement, AdminIssue, ActivityLogEntry } from "./api/admin";
+export { adminApi } from "./admin";
+export type { AdminElection, AdminStudent, ScheduleEvent, Announcement, AdminIssue, ActivityLogEntry } from "./admin";
 
-export { notificationApi } from "./api/notifications";
-export type { Notification } from "./api/notifications";
+export { notificationApi } from "./notifications";
+export type { Notification } from "./notifications";
 
-export { receiptApi } from "./api/receipts";
-export type { Receipt, ReceiptHistoryItem } from "./api/receipts";
+export { receiptApi } from "./receipts";
+export type { Receipt, ReceiptHistoryItem } from "./receipts";
 
-export { resultsApi } from "./api/results";
-export type { ElectionResults, PositionResult, CandidateResult, DepartmentParticipation } from "./api/results";
+export { resultsApi } from "./results";
+export type { ElectionResults, PositionResult, CandidateResult, DepartmentParticipation } from "./results";
 
-export { helpApi } from "./api/help";
-export type { SupportRequest, SupportMessage, CreateSupportRequestPayload } from "./api/help";
+export { helpApi } from "./help";
+export type { SupportRequest, SupportMessage, CreateSupportRequestPayload } from "./help";

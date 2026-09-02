@@ -79,7 +79,7 @@ export const CandidateNavbar: React.FC<CandidateNavbarProps> = ({
                   <p className="text-sm font-semibold text-text-primary">
                     {candidateName}
                   </p>
-                  <p className="text-xs text-text-muted">{candidateId}</p>
+                  <p className="text-xs text-text-muted">{candidateId || "No ID yet"}</p>
                   <span className="inline-block mt-1 text-[10px] font-semibold text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">
                     Candidate Account
                   </span>

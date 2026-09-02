@@ -51,15 +51,25 @@ export const CandidateLayout: React.FC<CandidateLayoutProps> = ({
 
   useEffect(() => {
     const auth = getAuthCookie();
+    let foundName = false;
+    let foundId = false;
+
     if (auth?.email) {
       const app = getApplicationByEmail(auth.email);
       if (app) {
         setUserName(app.name);
         setUserId(app.id);
         setStatus(app.status);
-      } else if (auth.name) {
-        setUserName(auth.name);
+        foundName = true;
+        foundId = true;
       }
+    }
+
+    if (!foundName) {
+      setUserName("Candidate");
+    }
+    if (!foundId) {
+      setUserId("");
     }
 
     let currentStatus: ApplicationStatus = "draft";
