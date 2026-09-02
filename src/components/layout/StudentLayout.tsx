@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Navbar } from "@/components/layout/Navbar";
 import { MobileNav } from "@/components/layout/MobileNav";
+import { getAuthCookie } from "@/lib/mock-auth";
 
 export interface StudentLayoutProps {
   children: React.ReactNode;
@@ -12,9 +13,15 @@ export interface StudentLayoutProps {
 
 export const StudentLayout: React.FC<StudentLayoutProps> = ({
   children,
-  studentName = "Anurag Gupta",
+  studentName,
 }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [name, setName] = useState(studentName || "Student");
+
+  useEffect(() => {
+    const auth = getAuthCookie();
+    if (auth?.name) setName(auth.name);
+  }, []);
 
   return (
     <div className="flex h-screen bg-bg-primary dark:bg-[#131524] overflow-hidden">
@@ -25,7 +32,7 @@ export const StudentLayout: React.FC<StudentLayoutProps> = ({
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <Navbar
           onToggleMenu={() => setMobileNavOpen((prev) => !prev)}
-          studentName={studentName}
+          studentName={name}
         />
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
           {children}
