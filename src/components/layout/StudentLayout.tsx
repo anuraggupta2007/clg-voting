@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Navbar } from "@/components/layout/Navbar";
 import { MobileNav } from "@/components/layout/MobileNav";
-import { getAuthCookie } from "@/lib/mock-auth";
+import { studentApi } from "@/lib/api/students";
 
 export interface StudentLayoutProps {
   children: React.ReactNode;
@@ -19,8 +19,9 @@ export const StudentLayout: React.FC<StudentLayoutProps> = ({
   const [name, setName] = useState(studentName || "Student");
 
   useEffect(() => {
-    const auth = getAuthCookie();
-    if (auth?.name) setName(auth.name);
+    studentApi.getProfile().then((profile) => {
+      if (profile?.name) setName(profile.name);
+    }).catch(() => {});
   }, []);
 
   return (
